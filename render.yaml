@@ -2,6 +2,9 @@ services:
   - type: web
     name: flask-api
     env: python
-    buildCommand: ""
+    buildCommand: pip install -r requirements.txt
     startCommand: python api.py
     plan: free
+    envVars:
+      - key: PORT
+        value: 10000
