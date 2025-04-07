@@ -71,7 +71,7 @@ st.markdown("""
 # Remove the sidebar for document processing by not including its code.
 
 # Initialize Gemini with API key
-genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
+genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
 embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
 
 def load_vector_store():
