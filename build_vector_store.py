@@ -33,5 +33,3 @@ if __name__ == "__main__":
     build_vector_store(doc_path)
     print("Vector DB created!")
 
-# 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
-# AIzaSyCNuz86CuDzjIiesn5UDHz1wuxunQ_a04Q
