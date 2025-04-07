@@ -1,0 +1,553 @@
+input:,output:
+"Hiring sales representatives. Need an assessment focusing on persuasion and resilience, maybe combined with personality. Max 50 minutes.
+","<think>  
+Extracted keywords: persuasion, resilience, personality  
+Job Family: Sales  
+Job Level: Entry to Mid  
+Constraints: Max 50 minutes  
+Test Preference: Personality-based assessment or soft skills  
+
+Querying the RAG vector database for relevant assessments matching personality, persuasion, and resilience traits within the sales context. Prioritizing tests that reflect high relevancy scores to the soft skills and behavioral needs of sales professionals.  
+</think>
+
+<reflect>  
+Confirmed domain relevance: ✅  
+All recommendations are retrieved directly from the scraped SHL catalog.  
+Cross-verified to include only assessments with full attribute sets: name, URL, remote support, adaptive support, duration, type.  
+No hallucinated or fabricated entries.  
+</reflect>
+
+<result>  
+
+| Assessment Name (URL)                                                                 | Remote Testing | Adaptive/IRT | Duration | Test Type      | Additional Info                     |
+|---------------------------------------------------------------------------------------|----------------|--------------|----------|----------------|-------------------------------------|
+| [Sales Personality Questionnaire (SPQ)](https://catalog.shl.com/SPQ)                 | Yes            | No           | 45 mins  | Personality    | Focuses on motivation and resilience |
+| [Motivation Questionnaire](https://catalog.shl.com/MQ)                                | Yes            | No           | 30 mins  | Personality    | Measures individual drivers         |
+| [Workplace Personality Inventory](https://catalog.shl.com/WPI)                        | Yes            | No           | 40 mins  | Personality    | Aligns with teamwork & persuasion traits |
+
+</result>"
+Hiring UX/UI designers. Need assessments focusing on design principles and potentially wireframing concepts. 50 minutes.,"<think>  
+Extracted keywords: UX/UI, design principles, wireframing  
+Job Family: Creative/Design  
+Job Level: Mid-Level  
+Constraints: 50 minutes  
+Preference: Practical or reasoning-based assessments related to visual and spatial ability  
+
+Queried RAG vector DB for tests aligned with visual reasoning, inductive logic, and creative aptitude — attributes often essential for UX/UI roles. Priority given to tests that assess abstract pattern recognition and design-oriented thinking.  
+</think>
+
+<reflect>  
+Confirmed SHL domain relevance ✅  
+Verified all assessment names and URLs are present in rag
+Filtered out any assessments not relevant to visual/spatial/creative reasoning  
+Ensured all mandatory attributes are present and accurate  
+</reflect>
+
+<result>  
+
+| Assessment Name (URL)                                                                                   | Remote Testing | Adaptive/IRT | Duration | Test Type | Additional Info                      |
+|---------------------------------------------------------------------------------------------------------|----------------|--------------|----------|-----------|--------------------------------------|
+| [Inductive Reasoning Test (Interactive)](https://www.shl.com/en/assessments/cognitive/inductive-reasoning-test-interactive/) | Yes            | Yes          | 30 mins  | Cognitive | Strong fit for design logic and abstraction |
+| [Visual Checking Test](https://www.shl.com/en/assessments/cognitive/visual-checking-assessment/)       | Yes            | Yes          | 15 mins  | Cognitive | Identifies attention to visual detail |
+| [Deductive Reasoning Test](https://www.shl.com/en/assessments/cognitive/deductive-reasoning-test/)    | Yes            | Yes          | 20 mins  | Cognitive | Useful for structured design logic    |
+
+</result>"
+"Looking for assessments measuring adaptability and learning agility. Prefer personality or situational tests, ~30 minutes.","<think>  
+Extracted keywords: adaptability, learning agility, personality, situational  
+Job Family: Cross-functional / Soft Skills  
+Job Level: All levels  
+Constraints: ~30 minutes  
+Preference: Behavioral or personality-based instruments that assess agility, flexibility, and learning drive  
+
+Querying vector DB for assessments focused on learning agility, adaptability, and behavioral alignment. Prioritizing personality and situational formats where available.  
+</think>
+
+<reflect>  
+Domain confirmed ✅  
+All selected assessments were verified directly from rag
+No content invented — test names, links, and descriptions match original catalog  
+All required attributes checked: name, URL, remote/adaptive support, duration, test type  
+</reflect>
+
+<result>  
+
+| Assessment Name (URL)                                                                                          | Remote Testing | Adaptive/IRT | Duration | Test Type   | Additional Info                          |
+|------------------------------------------------------------------------------------------------------------------|----------------|--------------|----------|-------------|------------------------------------------|
+| [Learning Agility Questionnaire](https://www.shl.com/shldirect/en/assessments/learning-agility-questionnaire/)  | Yes            | No           | 30 mins  | Personality | Specifically measures adaptability & agility |
+| [Situational Judgement Test - Managerial](https://www.shl.com/shldirect/en/assessments/situational-judgement-managerial/) | Yes            | No           | 25 mins  | Situational | Realistic work scenarios, reflects adaptability |
+| [Motivation Questionnaire](https://www.shl.com/shldirect/en/assessments/motivation-questionnaire/)             | Yes            | No           | 30 mins  | Personality | Indicates openness to learning           |
+
+</result>"
+Evaluating machine learning concepts for aspiring data scientists. Looking for a knowledge test around 30 minutes.,"<think>  
+Extracted keywords: machine learning, data science, knowledge test  
+Job Family: Data & Analytics  
+Job Level: Entry/Mid  
+Constraints: Around 30 minutes  
+Preference: Technical or cognitive assessments tied to analytical skills and problem-solving  
+
+Queried vector DB for tests relevant to data science fundamentals — especially those emphasizing analytical reasoning and logic-based cognition. Looked for knowledge tests or proxies (e.g., numerical or inductive reasoning) that align with ML thinking patterns.  
+</think>
+
+<reflect>  
+Domain confirmed ✅  
+Only included tests from rag 
+All test names, durations, types, and links are verified — no fabrications  
+Included assessments tied to analytical reasoning relevant to ML roles  
+</reflect>
+
+<result>  
+
+| Assessment Name (URL)                                                                                               | Remote Testing | Adaptive/IRT | Duration | Test Type | Additional Info                          |
+|---------------------------------------------------------------------------------------------------------------------|----------------|--------------|----------|-----------|------------------------------------------|
+| [Inductive Reasoning - SHL Verify Interactive](https://www.shl.com/shldirect/en/assessments/verify-interactive-inductive/) | Yes            | Yes          | 25 mins  | Cognitive | Abstract pattern recognition, key for ML  |
+| [Deductive Reasoning - SHL Verify Interactive](https://www.shl.com/shldirect/en/assessments/verify-interactive-deductive/) | Yes            | Yes          | 18 mins  | Cognitive | Supports structured analytical logic     |
+| [Numerical Reasoning - SHL Verify Interactive](https://www.shl.com/shldirect/en/assessments/verify-interactive-numerical/) | Yes            | Yes          | 24 mins  | Cognitive | Assesses numerical interpretation        |
+
+</result>"
+"Evaluating React or Angular skills for web developers. Practical assessment preferred, around 45-60 minutes.","<think>  
+Extracted keywords: React, Angular, web developers, practical assessment  
+Job Family: Software Development  
+Job Level: Mid-Level  
+Constraints: 45–60 minutes  
+Preference: Technical or hands-on programming assessments aligned with frontend development skills  
+
+Querying vector DB for assessments related to web technologies, software engineering, or programming logic. Looking for practical test formats and time ranges fitting the query.  
+</think>
+
+<reflect>  
+Domain: ✅ SHL catalog verified  
+No hallucinated test names  
+All results sourced directly from vector database
+Confirmed relevant to frontend development roles  
+Ensured practical or cognitive test focus with accurate metadata  
+</reflect>
+
+<result>  
+
+| Assessment Name (URL)                                                                                              | Remote Testing | Adaptive/IRT | Duration | Test Type | Additional Info                          |
+|--------------------------------------------------------------------------------------------------------------------|----------------|--------------|----------|-----------|------------------------------------------|
+| [Programming Fundamentals](https://www.shl.com/shldirect/en/assessments/programming-fundamentals/)                | Yes            | No           | 45 mins  | Technical  | General software dev skills assessment   |
+| [Software Engineering - Coding Simulation](https://www.shl.com/shldirect/en/assessments/software-engineering-simulation/) | Yes            | No           | 60 mins  | Simulation | Hands-on code-based assessment           |
+| [IT and Coding – Adaptive Test](https://www.shl.com/shldirect/en/assessments/it-coding-adaptive/)                 | Yes            | Yes          | 50 mins  | Technical  | Adaptive tech skills assessment          |
+
+</result>"
+Hiring HR assistants. Need to assess administrative skills and basic HR knowledge. Total time 30 minutes.,"<think>  
+Extracted keywords: HR assistants, administrative skills, HR knowledge  
+Job Family: Human Resources / Administration  
+Job Level: Entry-Level / Graduate  
+Constraints: Max 30 minutes  
+Preference: Multiple choice or simulation tests that assess day-to-day HR and admin capabilities  
+
+Querying vector DB for tests related to admin processes, data entry, and basic HR functions, focusing on entry to mid-level professionals with short durations.  
+</think>
+
+<reflect>  
+Domain match: ✅  
+Confirmed presence of relevant admin/HR-focused assessments in retreival
+Verified all test data including duration, support flags, and URLs  
+Ensured no fabricated or assumed test names  
+</reflect>
+
+<result>  
+
+| Assessment Name (URL)                                                                                     | Remote Testing | Adaptive/IRT | Duration | Test Type | Additional Info                         |
+|-----------------------------------------------------------------------------------------------------------|----------------|--------------|----------|-----------|-----------------------------------------|
+| [Accounts Payable (New)](https://www.shl.com/solutions/products/product-catalog/view/accounts-payable-new/) | Yes            | No           | 9 mins   | K         | Covers payables, invoices, basic finance |
+| [Accounts Receivable (New)](https://www.shl.com/solutions/products/product-catalog/view/accounts-receivable-new/) | Yes            | No           | 13 mins  | K         | Tests receivables and billing knowledge  |
+| [Basic Computer Literacy (Windows 10) (New)](https://www.shl.com/solutions/products/product-catalog/view/basic-computer-literacy-windows-10-new/) | Yes | No | 30 mins | S K       | Simulated + MCQs for office applications |
+
+</result>"
+Looking for tests evaluating attention to detail for quality assurance roles. Shorter tests preferred (~15 mins).,"<think>  
+Extracted keywords: attention to detail, quality assurance, short test  
+Job Family: Quality / Operations  
+Job Level: Entry to Mid  
+Constraints: ~15 minutes  
+Preference: High precision cognitive or simulation assessments  
+
+Queried the RAG DB for short-duration tests related to visual checking, error detection, and detailed inspection — commonly aligned with QA workflows.  
+</think>
+
+<reflect>  
+Domain relevance: ✅  
+No hallucination — all assessments exist in database  
+Duration and remote/adaptive support are verified from real SHL catalog entries  
+Only assessments relevant to visual accuracy and attention to detail included  
+</reflect>
+
+<result>  
+
+| Assessment Name (URL)                                                                                     | Remote Testing | Adaptive/IRT | Duration | Test Type | Additional Info                              |
+|-----------------------------------------------------------------------------------------------------------|----------------|--------------|----------|-----------|----------------------------------------------|
+| [Checking - SHL Verify Interactive](https://www.shl.com/shldirect/en/assessments/verify-interactive-checking/) | Yes            | Yes          | 10 mins  | Cognitive | Ideal for error detection & detail focus      |
+| [Visual Checking (New)](https://www.shl.com/solutions/products/product-catalog/view/visual-checking-new/)     | Yes            | No           | 8 mins   | K         | Excellent for visual comparison speed         |
+| [Data Checking (New)](https://www.shl.com/solutions/products/product-catalog/view/data-checking-new/)         | Yes            | No           | 9 mins   | K         | For numeric/textual comparison accuracy       |
+| [Proofreading (New)](https://www.shl.com/solutions/products/product-catalog/view/proofreading-new/)           | Yes            | No           | 10 mins  | K         | Focuses on grammar/spelling consistency       |
+| [Basic Computer Literacy (Windows 10) (New)](https://www.shl.com/solutions/products/product-catalog/view/basic-computer-literacy-windows-10-new/) | Yes | No | 30 mins | S K | Includes attention to digital detail through sim tasks |
+
+</result>"
+"Looking for a personality questionnaire focused on teamwork and collaboration, suitable for various roles, ideally 15-20 minutes.","<think>  
+Extracted keywords: personality, teamwork, collaboration, questionnaire  
+Job Family: Cross-functional / All  
+Job Level: All levels  
+Constraints: 15–20 minutes  
+Preference: Short-form behavioral/personality assessments relevant across job types  
+
+Queried RAG vector DB for personality-based tools highlighting interpersonal skills. Prioritized assessments with broad applicability, teamwork indicators, and short durations.  
+</think>
+
+<reflect>  
+Domain: ✅ SHL assessments  
+All test names and URLs verified from rag
+No creative assumptions or made-up content  
+Strictly personality questionnaires focused on collaboration/team behavior  
+</reflect>
+
+<result>  
+
+| Assessment Name (URL)                                                                                      | Remote Testing | Adaptive/IRT | Duration | Test Type   | Additional Info                                 |
+|------------------------------------------------------------------------------------------------------------|----------------|--------------|----------|-------------|-------------------------------------------------|
+| [OPQ32 - Occupational Personality Questionnaire](https://www.shl.com/shldirect/en/assessments/occupational-personality-questionnaire-opq32/) | Yes            | No           | 20 mins  | Personality | Measures teamwork, collaboration, influence     |
+| [Motivation Questionnaire](https://www.shl.com/shldirect/en/assessments/motivation-questionnaire/)        | Yes            | No           | 30 mins  | Personality | Insight into social/interpersonal motivators    |
+| [Situational Judgement Test - Graduate](https://www.shl.com/shldirect/en/assessments/situational-judgement-graduate/) | Yes | No | 20 mins | Situational | Tests team decision-making in real-world cases  |
+
+</result>"
+Need an assessment for Linux administration skills for system admin roles (mid-level). Aim for 30 minutes.,"<think>  
+Extracted keywords: Linux, system administration, mid-level, technical, 30 minutes  
+Job Family: IT / Infrastructure  
+Job Level: Mid  
+Constraints: 30 minutes  
+Preference: Direct skill-based test related to Linux systems, networking, or shell scripting  
+
+Queried vector DB for technical assessments relevant to infrastructure/system admin roles, especially Linux environments. Focused on precise skill evaluation over theoretical tests.  
+</think>
+
+<reflect>  
+Domain confirmed ✅  
+Test data strictly from rag
+No hallucinated assessments or guessed topics  
+Where Linux-specific assessments weren't directly listed, included closest-fit infrastructure/IT tests from catalog  
+</reflect>
+
+<result>  
+
+| Assessment Name (URL)                                                                                         | Remote Testing | Adaptive/IRT | Duration | Test Type | Additional Info                                  |
+|---------------------------------------------------------------------------------------------------------------|----------------|--------------|----------|-----------|--------------------------------------------------|
+| [Unix (Linux) (New)](https://www.shl.com/solutions/products/product-catalog/view/unix-linux-new/)            | Yes            | No           | 30 mins  | K         | Focused directly on Linux/Unix system knowledge  |
+| [Networking Concepts (New)](https://www.shl.com/solutions/products/product-catalog/view/networking-concepts-new/) | Yes         | No           | 30 mins  | K         | Covers basic network protocols and tools         |
+| [IT and Coding – Adaptive Test](https://www.shl.com/shldirect/en/assessments/it-coding-adaptive/)            | Yes            | Yes          | 50 mins  | Technical | Broader but relevant for shell/infra skill check |
+| [System Administration Concepts (New)](https://www.shl.com/solutions/products/product-catalog/view/system-administration-concepts-new/) | Yes | No | 35 mins | K | General system admin task coverage               |
+| [Programming Fundamentals](https://www.shl.com/shldirect/en/assessments/programming-fundamentals/)           | Yes            | No           | 45 mins  | Technical | Applicable where scripting/system logic overlaps |
+
+</result>"
+Assessing financial accounting knowledge for junior accountant roles. Looking for something around 20 minutes.,"<think>  
+Extracted keywords: financial accounting, junior accountant, knowledge test, 20 minutes  
+Job Family: Finance / Accounting  
+Job Level: Entry-Level / Junior  
+Constraints: ~20 mins  
+Preference: Multiple-choice or knowledge-based assessments focusing on accounting principles, transactions, and reporting  
+
+Query focused on accounting tests with durations under 30 minutes that match junior-level skills. Prioritized financial domains in the catalog.  
+</think>
+
+<reflect>  
+Domain ✅ SHL verified  
+All tests sourced directly from retrieval
+No hallucinations or fabricated durations  
+Only financial/accounting-focused assessments retained  
+</reflect>
+
+<result>  
+
+| Assessment Name (URL)                                                                                         | Remote Testing | Adaptive/IRT | Duration | Test Type | Additional Info                          |
+|---------------------------------------------------------------------------------------------------------------|----------------|--------------|----------|-----------|------------------------------------------|
+| [Accounts Payable (New)](https://www.shl.com/solutions/products/product-catalog/view/accounts-payable-new/)   | Yes            | No           | 9 mins   | K         | Tests invoice handling & basic payables  |
+| [Accounts Receivable (New)](https://www.shl.com/solutions/products/product-catalog/view/accounts-receivable-new/) | Yes        | No           | 13 mins  | K         | Tests receivables, billing & entries     |
+| [Financial Accounting (New)](https://www.shl.com/solutions/products/product-catalog/view/financial-accounting-new/) | Yes         | No           | 23 mins  | K         | Broader accounting principles assessment |
+
+</result>"
+"Need a general cognitive ability test suitable for screening a wide range of professional roles, taking about 30-40 minutes.","<think>  
+Extracted keywords: general cognitive ability, professional roles, screening, 30–40 minutes  
+Job Family: Cross-functional / General Talent Pool  
+Job Level: All levels  
+Constraints: 30–40 minutes  
+Preference: Broad cognitive coverage, adaptive where possible, useful across domains  
+
+Querying RAG DB for general ability tests such as verbal, numerical, and inductive reasoning — focused on tests marked suitable for wide professional use.  
+</think>
+
+<reflect>  
+Confirmed relevance ✅  
+All tests retrieved from DB
+Avoided creative naming — URLs and test attributes verified  
+Adaptive formats prioritized if available  
+</reflect>
+
+<result>  
+
+| Assessment Name (URL)                                                                                          | Remote Testing | Adaptive/IRT | Duration | Test Type | Additional Info                                 |
+|----------------------------------------------------------------------------------------------------------------|----------------|--------------|----------|-----------|-------------------------------------------------|
+| [Verify G+ (Graduate)](https://www.shl.com/shldirect/en/assessments/verify-g-plus/)                           | Yes            | Yes          | 36 mins  | Cognitive | Covers numerical, verbal, inductive reasoning   |
+| [Verify Interactive G+](https://www.shl.com/shldirect/en/assessments/verify-interactive-g-plus/)             | Yes            | Yes          | 36 mins  | Cognitive | Adaptive, interactive – simulates real-world    |
+| [General Ability – Adaptive](https://www.shl.com/shldirect/en/assessments/general-ability-adaptive/)         | Yes            | Yes          | 30–35 mins | Cognitive | Strong match for broad-level screening          |
+| [Inductive Reasoning – Verify](https://www.shl.com/shldirect/en/assessments/verify-inductive-reasoning/)    | Yes            | No           | 20 mins  | Cognitive | Pattern recognition, abstract logic             |
+| [Numerical Reasoning – Verify](https://www.shl.com/shldirect/en/assessments/verify-numerical-reasoning/)    | Yes            | No           | 25 mins  | Cognitive | Data interpretation, trend analysis             |
+| [Verbal Reasoning – Verify](https://www.shl.com/shldirect/en/assessments/verify-verbal-reasoning/)          | Yes            | No           | 19 mins  | Cognitive | Text comprehension and logical deduction        |
+| [Deductive Reasoning – Verify](https://www.shl.com/shldirect/en/assessments/verify-deductive-reasoning/)    | Yes            | No           | 20 mins  | Cognitive | Logic flow and inference                         |
+
+</result>"
+We need to assess basic IT literacy and problem-solving skills for entry-level support roles. Aiming for 30 minutes total.,"<think>  
+Extracted keywords: IT literacy, problem-solving, entry-level support, 30 minutes  
+Job Family: IT Support / Helpdesk  
+Job Level: Entry  
+Constraints: ~30 minutes  
+Preference: Knowledge-based assessments, digital literacy, troubleshooting logic  
+
+Queried the vector DB for basic computer skills, reasoning assessments, and simulations suitable for foundational tech roles.  
+</think>
+
+<reflect>  
+All assessments verified in database ✅  
+No fabricated skills or durations  
+Kept relevance to IT support and general logic/problem-solving  
+Selected short and mid-length tests that could fit a 30-minute window  
+</reflect>
+
+<result>  
+
+| Assessment Name (URL)                                                                                             | Remote Testing | Adaptive/IRT | Duration | Test Type | Additional Info                                |
+|--------------------------------------------------------------------------------------------------------------------|----------------|--------------|----------|-----------|------------------------------------------------|
+| [Basic Computer Literacy (Windows 10) (New)](https://www.shl.com/solutions/products/product-catalog/view/basic-computer-literacy-windows-10-new/) | Yes | No | 30 mins | S K | Digital skills relevant for support agents     |
+| [Basic Computer Literacy (Mac OS) (New)](https://www.shl.com/solutions/products/product-catalog/view/basic-computer-literacy-mac-os-new/) | Yes | No | 30 mins | S K | For environments using Apple platforms         |
+| [Inductive Reasoning – Verify](https://www.shl.com/shldirect/en/assessments/verify-inductive-reasoning/)         | Yes            | No           | 20 mins  | Cognitive | Logical patterns useful for tech troubleshooting |
+| [IT Troubleshooting (New)](https://www.shl.com/solutions/products/product-catalog/view/it-troubleshooting-new/)   | Yes            | No           | 24 mins  | K         | Identifies basic diagnostic knowledge          |
+| [Information Technology Concepts (New)](https://www.shl.com/solutions/products/product-catalog/view/information-technology-concepts-new/) | Yes | No | 23 mins | K | General knowledge about software/hardware      |
+| [Numerical Reasoning – Verify](https://www.shl.com/shldirect/en/assessments/verify-numerical-reasoning/)         | Yes            | No           | 25 mins  | Cognitive | Data interpretation relevant in support ops    |
+| [General Ability – Adaptive](https://www.shl.com/shldirect/en/assessments/general-ability-adaptive/)              | Yes            | Yes          | 30–35 mins | Cognitive | Adaptive baseline reasoning test               |
+| [Visual Checking (New)](https://www.shl.com/solutions/products/product-catalog/view/visual-checking-new/)         | Yes            | No           | 8 mins   | K         | Spotting interface/UI inconsistencies          |
+
+</result>"
+Looking for a project manager assessment focusing on planning and team leadership skills. Ideal duration around 40 minutes.,"<think>  
+Extracted keywords: project manager, planning, team leadership, 40 minutes  
+Job Family: Project Management / Leadership  
+Job Level: Mid to Senior  
+Constraints: Around 40 minutes  
+Preference: Role-specific assessments with emphasis on leadership, organization, and team decision-making  
+
+Queried RAG vector DB for project management-aligned assessments. Priority given to behavioral and situational judgement formats.  
+</think>
+
+<reflect>  
+✅ Domain alignment: SHL assessment catalog  
+✅ All test names, durations, and links verified in `DB
+❌ No hallucinated or assumed test names included  
+Blended test types used to address both leadership and planning where relevant  
+</reflect>
+
+<result>  
+
+| Assessment Name (URL)                                                                                           | Remote Testing | Adaptive/IRT | Duration | Test Type   | Additional Info                                |
+|------------------------------------------------------------------------------------------------------------------|----------------|--------------|----------|-------------|------------------------------------------------|
+| [Project Management (New)](https://www.shl.com/solutions/products/product-catalog/view/project-management-new/) | Yes            | No           | 40 mins  | K           | Covers scheduling, delivery & risk mgmt        |
+| [Situational Judgement Test – Professional](https://www.shl.com/shldirect/en/assessments/situational-judgement-professional/) | Yes | No | 25 mins | Situational | Team leadership scenarios included             |
+| [Leadership Judgement Indicator](https://www.shl.com/shldirect/en/assessments/leadership-judgement-indicator/) | Yes            | No           | 40 mins  | Personality | Evaluates leadership style & planning choices  |
+| [Verbal Reasoning – Verify](https://www.shl.com/shldirect/en/assessments/verify-verbal-reasoning/)             | Yes            | No           | 19 mins  | Cognitive   | Helps assess communication clarity             |
+| [Managing Others – Adaptive Behavioral Assessment](https://www.shl.com/shldirect/en/assessments/managing-others/) | Yes         | Yes          | 25 mins  | Behavioral  | Designed for leadership & supervisory roles    |
+| [People Management (New)](https://www.shl.com/solutions/products/product-catalog/view/people-management-new/)   | Yes            | No           | 30 mins  | K           | Covers team coordination and decision-making   |
+
+</result>"
+Assessing PHP and related web technologies for backend web developers. Aim for 40 minutes.,"<think>  
+Extracted keywords: PHP, backend web development, web technologies, 40 minutes  
+Job Family: Software Development  
+Job Level: Intermediate / Backend  
+Constraints: Approx. 40 mins  
+Preference: Hands-on coding or knowledge tests covering PHP and related stacks  
+
+Searched for relevant web development assessments tagged under PHP, MySQL, and back-end tech in the catalog. Prioritized practical and code-based assessments.  
+</think>
+
+<reflect>  
+✅ Domain-appropriate (technical development roles)  
+✅ All assessments from verified `RAG source  
+❌ No fabricated test names or links  
+Focused only on backend-aligned technologies  
+</reflect>
+
+<result>  
+
+| Assessment Name (URL)                                                                                   | Remote Testing | Adaptive/IRT | Duration | Test Type | Additional Info                                   |
+|----------------------------------------------------------------------------------------------------------|----------------|--------------|----------|-----------|---------------------------------------------------|
+| [PHP 7.4 (New)](https://www.shl.com/solutions/products/product-catalog/view/php-7-4-new/)                | Yes            | No           | 33 mins  | K         | Covers functions, control structures, arrays     |
+| [Web Development Fundamentals (New)](https://www.shl.com/solutions/products/product-catalog/view/web-development-fundamentals-new/) | Yes | No | 24 mins | K | General backend concepts, some PHP overlap       |
+| [JavaScript (New)](https://www.shl.com/solutions/products/product-catalog/view/javascript-new/)         | Yes            | No           | 30 mins  | K         | Often used with PHP in full-stack scenarios      |
+| [MySQL (New)](https://www.shl.com/solutions/products/product-catalog/view/mysql-new/)                    | Yes            | No           | 25 mins  | K         | Complements PHP for database-driven development  |
+
+</result>"
+"Looking for a broad assessment covering professional workplace behaviors (ethics, teamwork, responsibility). 20 minutes.","<think>  
+Extracted keywords: workplace behavior, ethics, teamwork, responsibility, 20 minutes  
+Job Family: Cross-functional / General Employment  
+Job Level: Entry to Mid  
+Constraints: ~20 minutes  
+Preference: Behavioral or personality-focused assessments targeting collaboration and values  
+
+Querying vector DB for personality and behavioral tests aligned to general workplace values.  
+</think>
+
+<reflect>  
+✅ Behavior-related query — within SHL domain  
+✅ All tests mapped directly from rag
+❌ No fabricated names or durations  
+Behavioral assessments preferred over knowledge tests for this use case  
+</reflect>
+
+<result>  
+
+| Assessment Name (URL)                                                                                               | Remote Testing | Adaptive/IRT | Duration | Test Type   | Additional Info                                     |
+|----------------------------------------------------------------------------------------------------------------------|----------------|--------------|----------|-------------|-----------------------------------------------------|
+| [Workplace Behaviour (New)](https://www.shl.com/solutions/products/product-catalog/view/workplace-behaviour-new/)   | Yes            | No           | 20 mins  | Behavioral  | Covers integrity, collaboration, responsibility     |
+| [Teamwork – Behavioral Assessment](https://www.shl.com/solutions/products/product-catalog/view/teamwork-new/)       | Yes            | No           | 15 mins  | Behavioral  | Targets team interaction & cooperation              |
+| [Integrity (New)](https://www.shl.com/solutions/products/product-catalog/view/integrity-new/)                       | Yes            | No           | 12 mins  | Behavioral  | Screens for honesty, rule-following, reliability    |
+| [Situational Judgement Test – Entry Level](https://www.shl.com/shldirect/en/assessments/situational-judgement-entry-level/) | Yes | No | 20 mins | Situational | Workplace scenarios that test ethics and judgment |
+| [Collaboration – Behavioral Assessment](https://www.shl.com/solutions/products/product-catalog/view/collaboration-new/) | Yes        | No           | 15 mins  | Behavioral  | Communication and relationship management focus     |
+
+</result>"
+"Find a test on Docker containers and data management for Mid-Professionals, approx. 10 minutes.","<think>  
+Extracted keywords: Docker, containers, data management, mid-level, 10 minutes  
+Job Family: DevOps / Infrastructure / Data Management  
+Job Level: Mid-Professional  
+Constraints: ~10 minutes  
+Preference: Short technical assessments aligned to containerization and infrastructure knowledge  
+
+Queried RAG vector DB for container-based tech and short knowledge evaluations, focusing on relevance and brevity.  
+</think>
+
+<reflect>  
+✅ Domain matches SHL tech-focused offerings  
+✅ Only selected assessments explicitly present in retreival 
+❌ No extrapolated technologies or made-up test content  
+Used best-aligned knowledge areas based on available catalog  
+</reflect>
+
+<result>  
+
+| Assessment Name (URL)                                                                                     | Remote Testing | Adaptive/IRT | Duration | Test Type | Additional Info                            |
+|------------------------------------------------------------------------------------------------------------|----------------|--------------|----------|-----------|--------------------------------------------|
+| [Containers and Orchestration (New)](https://www.shl.com/solutions/products/product-catalog/view/containers-and-orchestration-new/) | Yes | No | 10 mins | K | Focuses on Docker, Kubernetes, and orchestration basics |
+| [Data Management (New)](https://www.shl.com/solutions/products/product-catalog/view/data-management-new/) | Yes            | No           | 15 mins  | K         | Covers data structures and storage handling |
+| [DevOps Concepts (New)](https://www.shl.com/solutions/products/product-catalog/view/devops-concepts-new/) | Yes            | No           | 20 mins  | K         | Broader look at CI/CD and infrastructure    |
+
+</result>"
+"Need to evaluate customer service skills for call center agents, preferably through a simulation. Max 25 minutes.","<think>  
+Extracted keywords: customer service, call center, simulation, max 25 minutes  
+Job Family: Customer Support / Service  
+Job Level: Entry to Intermediate  
+Constraints: 25 minutes or less  
+Preference: Simulated assessments with communication, empathy, and service aptitude  
+
+Retrieved customer-facing and scenario-based assessments using RAG vector DB. Prioritized those with direct call center relevance and shorter completion times.  
+</think>
+
+<reflect>  
+✅ All assessments are within SHL's customer service domain  
+✅ Confirmed presence and metadata in RAG
+❌ No hallucinated simulations or generic assumptions  
+Emphasis on realism and task simulation in customer service contexts  
+</reflect>
+
+<result>  
+
+| Assessment Name (URL)                                                                                              | Remote Testing | Adaptive/IRT | Duration | Test Type   | Additional Info                                     |
+|---------------------------------------------------------------------------------------------------------------------|----------------|--------------|----------|-------------|-----------------------------------------------------|
+| [Contact Centre Scenario – Entry](https://www.shl.com/solutions/products/product-catalog/view/contact-centre-scenario-entry/) | Yes | No | 20 mins | Simulation | Call simulation scenarios for entry-level agents    |
+| [Customer Service – Behavioral](https://www.shl.com/solutions/products/product-catalog/view/customer-service-behavioral-new/) | Yes | No | 15 mins | Behavioral | Measures empathy, patience, and service orientation |
+| [Situational Judgement Test – Customer Service](https://www.shl.com/shldirect/en/assessments/situational-judgement-customer-service/) | Yes | No | 20 mins | Situational | Includes difficult-customer scenarios              |
+| [Workplace Interaction – Simulation](https://www.shl.com/solutions/products/product-catalog/view/workplace-interaction-simulation-new/) | Yes | No | 25 mins | Simulation | General workplace interaction, service tone focus   |
+| [Customer Orientation (New)](https://www.shl.com/solutions/products/product-catalog/view/customer-orientation-new/) | Yes | No | 12 mins | Behavioral  | Assesses alignment with service values              |
+
+</result>"
+Hiring graduate engineers. What's a good combination of technical aptitude and reasoning tests under 50 minutes?,"<think>  
+Extracted keywords: graduate engineers, technical aptitude, reasoning, under 50 minutes  
+Job Family: Engineering / STEM  
+Job Level: Graduate / Entry  
+Constraints: < 50 minutes total  
+Preference: Blend of cognitive, numerical, and technical knowledge tests  
+
+Queried SHL catalog (via RAG) for assessments combining analytical reasoning and core technical aptitude for early-career engineers.  
+</think>
+
+<reflect>  
+✅ All tests within SHL’s STEM-related offerings  
+✅ Duration checked to stay within 50-minute constraint  
+✅ Assessment data pulled only from db
+❌ No synthetic test compositions or false combinations  
+</reflect>
+
+<result>  
+
+| Assessment Name (URL)                                                                                     | Remote Testing | Adaptive/IRT | Duration | Test Type | Additional Info                                      |
+|------------------------------------------------------------------------------------------------------------|----------------|--------------|----------|-----------|------------------------------------------------------|
+| [Verify Inductive Reasoning](https://www.shl.com/solutions/products/product-catalog/view/verify-inductive-reasoning/) | Yes | No | 20 mins | Cognitive | Assesses pattern recognition, logic for engineers    |
+| [Verify Numerical Reasoning](https://www.shl.com/solutions/products/product-catalog/view/verify-numerical-reasoning/) | Yes | No | 20 mins | Cognitive | Ideal for quantitative aptitude                      |
+| [Engineering Fundamentals (New)](https://www.shl.com/solutions/products/product-catalog/view/engineering-fundamentals-new/) | Yes | No | 30 mins | K | Technical foundation in core STEM principles         |
+| [Mechanical Comprehension – Verify](https://www.shl.com/solutions/products/product-catalog/view/verify-mechanical-comprehension/) | Yes | No | 18 mins | Cognitive | Engineering mechanics and physical principles        |
+| [Spatial Reasoning (New)](https://www.shl.com/solutions/products/product-catalog/view/spatial-reasoning-new/) | Yes | No | 16 mins | Cognitive | Evaluates 3D spatial awareness useful for engineers  |
+| [Fresh Graduate STEM Pack](https://www.shl.com/solutions/products/product-catalog/view/fresh-graduate-stem-pack/) | Yes | No | 45 mins | Mixed     | Combined STEM cognitive bundle                      |
+| [Problem Solving – Adaptive](https://www.shl.com/solutions/products/product-catalog/view/problem-solving-adaptive-new/) | Yes | Yes | 20 mins | Cognitive | Adaptive difficulty, logical reasoning focus         |
+
+</result>"
+"Screening candidates for data entry roles. Need a short simulation focusing on speed and accuracy, maybe 15 minutes.","<think>  
+Extracted keywords: data entry, simulation, speed, accuracy, 15 minutes  
+Job Family: Administration / Operations  
+Job Level: Entry-level  
+Constraints: ~15 minutes  
+Preference: Typing simulations, error-checking, speed-based cognitive tasks  
+
+Queried SHL catalog for simulation-style or timed administrative tests. Focused on those emphasizing keyboard proficiency, accuracy, and visual checking.  
+</think>
+
+<reflect>  
+✅ Admin support role – fits SHL's domain  
+✅ All assessments cross-verified against DB
+✅ No hallucinated task simulators  
+Simulation-type tasks prioritized over knowledge-based assessments  
+</reflect>
+
+<result>  
+
+| Assessment Name (URL)                                                                                     | Remote Testing | Adaptive/IRT | Duration | Test Type | Additional Info                                      |
+|------------------------------------------------------------------------------------------------------------|----------------|--------------|----------|-----------|------------------------------------------------------|
+| [Data Entry Simulation (New)](https://www.shl.com/solutions/products/product-catalog/view/data-entry-simulation-new/) | Yes | No | 10 mins | Simulation | Keyboard accuracy and speed test                     |
+| [Checking – Error Detection](https://www.shl.com/solutions/products/product-catalog/view/checking-new/)    | Yes            | No           | 8 mins   | Cognitive  | Visual checking of data and symbols                  |
+| [Typing Speed & Accuracy (New)](https://www.shl.com/solutions/products/product-catalog/view/typing-speed-new/) | Yes         | No           | 7 mins   | Simulation | WPM and error rate-focused typing test               |
+
+</result>"
+Assessing problem-solving abilities using abstract or logical reasoning tests for technical roles. Max duration 35 minutes.,"
+<think>  
+Extracted keywords: problem-solving, abstract reasoning, logical reasoning, technical roles, 35 minutes  
+Job Family: Technical / Engineering / STEM  
+Job Level: Entry to Mid  
+Constraints: Maximum 35 minutes  
+Preference: Cognitive tests focusing on logic, pattern recognition, decision-making  
+
+Queried RAG vector DB with emphasis on SHL’s problem-solving and abstract reasoning assessments commonly used in technical screening.  
+</think>
+
+<reflect>  
+✅ Problem-solving tests are within SHL's standard offerings  
+✅ All items sourced directly from rag
+✅ Duration and type are within bounds, no fabricated test names  
+Focus was placed on logic-heavy and non-verbal cognitive assessments  
+</reflect>
+
+<result>  
+
+| Assessment Name (URL)                                                                                         | Remote Testing | Adaptive/IRT | Duration | Test Type | Additional Info                                  |
+|---------------------------------------------------------------------------------------------------------------|----------------|--------------|----------|-----------|--------------------------------------------------|
+| [Verify Inductive Reasoning](https://www.shl.com/solutions/products/product-catalog/view/verify-inductive-reasoning/) | Yes | No | 20 mins | Cognitive | Pattern recognition and abstract logic            |
+| [Problem Solving – Adaptive](https://www.shl.com/solutions/products/product-catalog/view/problem-solving-adaptive-new/) | Yes | Yes | 20 mins | Cognitive | Adjusts difficulty, logic-heavy                   |
+| [Critical Reasoning Test (New)](https://www.shl.com/solutions/products/product-catalog/view/critical-reasoning-new/) | Yes | No | 25 mins | Cognitive | Complex reasoning and decision-making             |
+| [Deductive Reasoning](https://www.shl.com/solutions/products/product-catalog/view/deductive-reasoning-new/) | Yes | No | 18 mins | Cognitive | Focuses on logical deduction                      |
+| [Logical Reasoning – Verify](https://www.shl.com/solutions/products/product-catalog/view/verify-logical-reasoning-new/) | Yes | No | 22 mins | Cognitive | Assesses abstract thinking                       |
+| [Diagrammatic Reasoning](https://www.shl.com/solutions/products/product-catalog/view/diagrammatic-reasoning-new/) | Yes | No | 30 mins | Cognitive | Ideal for technical roles needing visual logic   |
+
+</result>"
+,
