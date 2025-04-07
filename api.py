@@ -1,8 +1,6 @@
 import os
 from flask import Flask, request, jsonify
-from app_streamlit import process_query 
-import streamlit as st  
-from contextlib import nullcontext
+from api_helper import process_query  # Your custom function
 
 app = Flask(__name__)
 
@@ -12,18 +10,10 @@ def recommend():
     if not query:
         return jsonify({"error": "Missing 'query' parameter in URL"}), 400
 
-    
-    st.status = lambda *args, **kwargs: nullcontext()
-    st.spinner = lambda *args, **kwargs: nullcontext()
-    st.error = lambda x: print(f"Streamlit Error in API: {x}")
-
-    
+    # Set up environment variables for use inside app_streamlit
     os.environ["HF_TOKEN"] = os.environ.get("HF_TOKEN", "")
     os.environ["GEMINI_API_KEY"] = os.environ.get("GEMINI_API_KEY", "")
-    st.secrets["HF_TOKEN"] = os.environ["HF_TOKEN"]
-    st.secrets["GEMINI_API_KEY"] = os.environ["GEMINI_API_KEY"]
 
-    
     response = process_query(query)
     return jsonify({"result": response})
 

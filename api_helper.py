@@ -1,9 +1,9 @@
 import os
 import re
-import tempfile
 from google import genai 
 import streamlit as st
-from langchain_google_genai import GoogleGenerativeAIEmbeddings, ChatGoogleGenerativeAI
+from langchain.embeddings import HuggingFaceInferenceAPIEmbeddings
+from langchain_google_genai import  ChatGoogleGenerativeAI
 from langchain.chains.question_answering import load_qa_chain
 from langchain.prompts import PromptTemplate
 from langchain_community.vectorstores import FAISS
@@ -70,19 +70,13 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# Remove the sidebar for document processing by not including its code.
 
-# Initialize Google Gen AI client using google-genai SDK
-client = genai.Client(api_key=os.environ.get("GEMINI_API_KEY"))
 
-# Initialize the model
-with tempfile.NamedTemporaryFile(mode='w', delete=False, suffix='.json') as temp:
-    temp.write(os.environ.get("GOOGLE_CREDENTIALS_JSON_CONTENT"))
-    temp.flush()
-    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = temp.name
-
-# Initialize embeddings with the Google Generative AI model
-embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
+# Initialize embeddings with the hf inference
+embeddings = HuggingFaceInferenceAPIEmbeddings(
+    api_key=os.environ.get("HF_TOKEN", ""),
+    model_name="sentence-transformers/all-MiniLM-L6-v2"
+) 
 
 def load_vector_store():
     """Load FAISS vector store with security checks"""
@@ -117,10 +111,12 @@ def get_conversational_chain():
     # Updated model name to the new google-genai supported model
     model = ChatGoogleGenerativeAI(
         model="gemini-2.0-flash-001",
+        google_api_key=os.environ.get("GEMINI_API_KEY", ""),
         temperature=0.2,
         top_k=20,
         top_p=0.95,
-        verbose=True 
+        verbose=True
+
     )
 
     prompt = PromptTemplate(
