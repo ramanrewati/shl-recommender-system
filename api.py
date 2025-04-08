@@ -17,5 +17,9 @@ def recommend():
     response = process_query(query)
     return jsonify({"result": response})
 
+@app.route('/ping', methods=['GET'])
+def ping():
+    return jsonify({"status": "alive"}), 200
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
