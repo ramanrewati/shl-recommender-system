@@ -151,7 +151,7 @@ def process_query(query):
             if db is None:
                 return "Error: Knowledge base not loaded"
 
-            docs = db.similarity_search(full_query, k=5)
+            docs = db.similarity_search(full_query, k=10)
             chain = get_conversational_chain()
             response = chain.invoke(
                 {"input_documents": docs, "question": full_query},
@@ -161,6 +161,74 @@ def process_query(query):
         except Exception as e:
             st.error(f"Analysis error: {str(e)}")
             return None
+
+
+def parse_recommendations(response_text):
+    """
+    Parse the chain output to extract recommendation details and return
+    a structured JSON in the required schema.
+    """
+   
+    result_match = re.search(r'<result>([\s\S]*?)</result>', response_text)
+    if not result_match:
+        
+        return {"recommended_assessments": []}
+    
+    result_content = result_match.group(1).strip()
+    
+
+    lines = [line.strip() for line in result_content.splitlines() if line.strip()]
+    if not lines or len(lines) < 3:
+        return {"recommended_assessments": []}
+    
+
+    header = lines[0]
+    separator = lines[1]
+    data_rows = lines[2:]
+    
+    recommendations = []
+    
+    test_type_mapping = {
+        "A": ["Ability & Aptitude"],
+        "B": ["Biodata & Situational Judgement"],
+        "C": ["Competencies"],
+        "D": ["Development & 360"],
+        "E": ["Assessment Exercises"],
+        "K": ["Knowledge & Skills"],
+        "P": ["Personality & Behavior"],
+        "S": ["Simulations"]
+    }
+    
+    for row in data_rows:
+
+        parts = [col.strip() for col in row.split("|") if col.strip()]
+        if len(parts) < 6:
+            continue  
+        
+        url_match = re.search(r'\[.*?\]\((.*?)\)', parts[0])
+        url = url_match.group(1) if url_match else ""
+        
+        duration_numbers = re.findall(r'\d+', parts[3])
+        duration = int(duration_numbers[0]) if duration_numbers else 0
+
+        test_type_shorthand = parts[4]
+        test_type = []
+        for code in test_type_shorthand.split(","):
+            code = code.strip()
+            test_type.extend(test_type_mapping.get(code, [code]))
+        
+        recommendation = {
+            "url": url,
+            "adaptive_support": parts[2],  
+            "description": parts[5],
+            "duration": duration,
+            "remote_support": parts[1], 
+            "test_type": test_type
+        }
+        recommendations.append(recommendation)
+    
+    return {"recommended_assessments": recommendations}
+
 
 def render_response(response):
     """Render AI response with beautiful markdown formatting"""

@@ -151,7 +151,7 @@ def process_query(query):
             if db is None:
                 return "Error: Knowledge base not loaded"
 
-            docs = db.similarity_search(full_query, k=5)
+            docs = db.similarity_search(full_query, k=10)
             chain = get_conversational_chain()
             response = chain.invoke(
                 {"input_documents": docs, "question": full_query},

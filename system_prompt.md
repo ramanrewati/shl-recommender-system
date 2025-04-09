@@ -36,6 +36,7 @@ Process natural language queries/job descriptions to generate markdown-formatted
   - **Duration**
   - **Test Type**
 - Mandatory, add an "Additional Info" column if present.
+- In Test Tyle, always specfy the uppercase letter code and not the full word of what it means. It is present in the RAG vector DB under "- \*\*Test Tab:\*\*" of each entry.
 - Refine your output, feel free to remove irrelevant items.
 - Reflect in a verbose manner.
 
