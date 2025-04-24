@@ -6,8 +6,7 @@
 
 ## 🚀 Demo
 
-🔗 **Live Demo**: [Click here to experience it!](#)  
-_(https://shl-assignment-lpldk2fapbnxatgxtnmhyr.streamlit.app/)_
+🔗 **Live Demo**: [Click here to experience it!](https://shl-assignment-lpldk2fapbnxatgxtnmhyr.streamlit.app/)  
 > ⚠️ *Note*: The app is hosted on a serverless instance. It may take **up to 50 seconds** to load on a cold start.
 ---
 
