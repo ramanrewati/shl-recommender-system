@@ -8,6 +8,15 @@ from langchain.chains.question_answering import load_qa_chain
 from langchain.prompts import PromptTemplate
 from langchain_community.vectorstores import FAISS
 import scraping_utils
+import requests
+
+headers = {"Authorization": f"Bearer {st.secrets['HF_TOKEN']}"}
+test = requests.get(
+    "https://api-inference.huggingface.co/models/sentence-transformers/all-MiniLM-L6-v2",
+    headers=headers
+)
+st.write("HF API status:", test.status_code, test.text)
+
 
 
 # Initialize Streamlit page config
