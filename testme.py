@@ -1,69 +1,17 @@
-# your_app.py
 import os
 import re
-import sys
-import json
-import logging
-import traceback
-from typing import Optional, List
-
-# Third-party imports (make sure these packages are installed)
+import requests
+from google import genai 
 import streamlit as st
-from google import genai
-from langchain_community.embeddings import HuggingFaceInferenceAPIEmbeddings
-from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain.embeddings import HuggingFaceInferenceAPIEmbeddings
+from langchain_google_genai import  ChatGoogleGenerativeAI
 from langchain.chains.question_answering import load_qa_chain
 from langchain.prompts import PromptTemplate
 from langchain_community.vectorstores import FAISS
+import scraping_utils
 
-import scraping_utils  # your custom module
 
-# -----------------------
-# Logging configuration
-# -----------------------
-logger = logging.getLogger("shl_recommender")
-logger.setLevel(logging.DEBUG)
-
-# Console handler (terminal)
-console_handler = logging.StreamHandler(sys.stdout)
-console_handler.setLevel(logging.DEBUG)
-console_fmt = logging.Formatter("%(asctime)s %(levelname)s %(name)s: %(message)s")
-console_handler.setFormatter(console_fmt)
-logger.addHandler(console_handler)
-
-# File handler
-file_handler = logging.FileHandler("app_debug.log", mode="a")
-file_handler.setLevel(logging.DEBUG)
-file_handler.setFormatter(console_fmt)
-logger.addHandler(file_handler)
-
-# Small helper utilities
-def _preview(text: Optional[str], n: int = 500) -> str:
-    if text is None:
-        return "<None>"
-    t = str(text)
-    return (t[:n] + "…") if len(t) > n else t
-
-def _safe_json_preview(text: str):
-    try:
-        parsed = json.loads(text)
-        return ("OK", parsed)
-    except json.JSONDecodeError as e:
-        logger.debug("JSON decode error preview: %s", traceback.format_exc())
-        return (f"JSONDecodeError: {e}", _preview(text, 400))
-
-def secret_present(key: str) -> bool:
-    try:
-        present = key in st.secrets and bool(st.secrets.get(key))
-        logger.debug("Secret presence check - %s: %s", key, present)
-        return present
-    except Exception:
-        logger.exception("Error checking secret presence for %s", key)
-        return False
-
-# -----------------------
-# Streamlit page config & CSS
-# -----------------------
+# Initialize Streamlit page config
 st.set_page_config(
     page_title="SHL Assessment Recommender",
     page_icon="📊",
@@ -71,6 +19,7 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
+# Custom CSS for dark theme and improved contrast
 st.markdown("""
 <style>
     .stApp {
@@ -119,67 +68,200 @@ st.markdown("""
     .stSpinner > div {
         color: #bb86fc !important;
     }
+
+    /* Side service badges (vertical / sideways) */
+    .service-badges {
+        position: fixed;
+        right: 6px;
+        top: 120px;
+        display: flex;
+        gap: 10px;
+        z-index: 9999;
+        flex-direction: column;
+        align-items: center;
+        pointer-events: none; /* UI is purely informational, not interactive */
+    }
+    .service-badge {
+        writing-mode: vertical-rl;
+        transform: rotate(180deg);
+        background: #444;
+        color: #fff;
+        padding: 8px 10px;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 12px;
+        border: 2px solid rgba(255,255,255,0.06);
+        pointer-events: auto;
+    }
+    .service-up { background: #1f7a1f; }       /* green */
+    .service-down { background: #9b1f1f; }     /* red */
+    .service-auth { background: #b06a1f; }     /* orange (auth issue) */
+
+    /* small label under badges */
+    .service-label {
+        position: fixed;
+        right: 6px;
+        top: 220px;
+        z-index: 9999;
+        font-size: 11px;
+        color: #cfcfcf;
+        text-align: center;
+        width: 72px;
+    }
 </style>
 """, unsafe_allow_html=True)
 
+
 # -----------------------
-# Embeddings & Vectorstore loader (with logging)
+# Service check functions
 # -----------------------
-logger.info("Starting app — checking secret presence")
-secret_present("HF_TOKEN")
-secret_present("GEMINI_API_KEY")
+def check_huggingface(hf_token: str, timeout: float = 4.0):
+    """
+    Check HuggingFace Inference availability by querying the model metadata endpoint.
+    Returns tuple (status_str, is_reachable_bool).
+    status_str one of: "up", "down", "auth_error", "no_token"
+    """
+    if not hf_token:
+        return ("no_token", False)
+
+    url = "https://api-inference.huggingface.co/models/sentence-transformers/all-MiniLM-L6-v2"
+    headers = {"Authorization": f"Bearer {hf_token}"}
+    try:
+        resp = requests.get(url, headers=headers, timeout=timeout)
+        if resp.status_code == 200:
+            return ("up", True)
+        elif resp.status_code in (401, 403):
+            # service reachable, but auth issue
+            return ("auth_error", True)
+        else:
+            return ("down", False)
+    except requests.RequestException:
+        return ("down", False)
+
+
+def check_gemini(gemini_api_key: str, timeout: float = 4.0):
+    """
+    Check Gemini (Google Generative API) availability by calling the models/list endpoint.
+    Returns tuple (status_str, is_reachable_bool).
+    status_str one of: "up", "down", "auth_error", "no_key"
+    NOTE: this uses the public generative.googleapis.com endpoint and passes the API key as 'key' param.
+    """
+    if not gemini_api_key:
+        return ("no_key", False)
+
+    url = "https://generative.googleapis.com/v1/models"
+    try:
+        resp = requests.get(url, params={"key": gemini_api_key}, timeout=timeout)
+        if resp.status_code == 200:
+            return ("up", True)
+        elif resp.status_code in (401, 403):
+            return ("auth_error", True)
+        else:
+            return ("down", False)
+    except requests.RequestException:
+        return ("down", False)
+
+
+# Run checks on load (will run each time the app reloads)
+hf_token = None
+gemini_key = None
+try:
+    hf_token = st.secrets.get("HF_TOKEN")
+except Exception:
+    hf_token = None
 
 try:
-    embeddings = HuggingFaceInferenceAPIEmbeddings(
-        api_key=st.secrets.get("HF_TOKEN", None),
-        model_name="sentence-transformers/all-MiniLM-L6-v2"
-    )
-    logger.info("Embeddings instance created: %s", type(embeddings))
+    gemini_key = st.secrets.get("GEMINI_API_KEY")
 except Exception:
-    logger.exception("Failed to create HuggingFace embeddings (stacktrace above).")
-    embeddings = None
+    gemini_key = None
+
+hf_status, hf_reachable = check_huggingface(hf_token)
+gemini_status, gemini_reachable = check_gemini(gemini_key)
+
+
+# Map status to CSS class + friendly text
+def status_display_info(status_tuple):
+    status, reachable = status_tuple
+    if status == "up":
+        return ("service-up", "UP")
+    if status == "auth_error":
+        return ("service-auth", "AUTH")
+    if status in ("no_token", "no_key"):
+        return ("service-auth", "MISSING")
+    return ("service-down", "DOWN")
+
+
+hf_class, hf_text = status_display_info((hf_status, hf_reachable))
+gem_class, gem_text = status_display_info((gemini_status, gemini_reachable))
+
+
+# Inject the side badges HTML
+st.markdown(f"""
+<div class="service-badges" aria-hidden="true">
+    <div class="service-badge {hf_class}" title="HuggingFace Inference status">HF · {hf_text}</div>
+    <div class="service-badge {gem_class}" title="Gemini / Google Generative status">GEM · {gem_text}</div>
+</div>
+<div class="service-label">Service Status</div>
+""", unsafe_allow_html=True)
+
+
+# Also show clear, accessible textual statuses in the sidebar (useful for screen readers / logs)
+with st.sidebar:
+    st.markdown("### API Health")
+    # HuggingFace
+    if hf_status == "up":
+        st.success("HuggingFace Inference: reachable (200 OK)")
+    elif hf_status == "auth_error":
+        st.warning("HuggingFace Inference: reachable but auth failed (401/403). Check HF_TOKEN.")
+    elif hf_status == "no_token":
+        st.error("HuggingFace Inference: HF_TOKEN missing in st.secrets.")
+    else:
+        st.error("HuggingFace Inference: not reachable (network or service error).")
+
+    # Gemini
+    if gemini_status == "up":
+        st.success("Gemini (Google Generative API): reachable (200 OK)")
+    elif gemini_status == "auth_error":
+        st.warning("Gemini (Google Generative API): reachable but auth failed (401/403). Check GEMINI_API_KEY.")
+    elif gemini_status == "no_key":
+        st.error("Gemini (Google Generative API): GEMINI_API_KEY missing in st.secrets.")
+    else:
+        st.error("Gemini (Google Generative API): not reachable (network or service error).")
+
+    st.markdown("---")
+    st.caption("Checks run on each page reload. Visual badges on the right show quick status.")
+
+
+# -----------------------
+# The rest of your code (unchanged apart from imports & checks above)
+# -----------------------
+
+# Initialize embeddings with the hf inference
+embeddings = HuggingFaceInferenceAPIEmbeddings(
+    api_key=st.secrets["HF_TOKEN"],
+    model_name="sentence-transformers/all-MiniLM-L6-v2"
+) 
 
 def load_vector_store():
-    """Load FAISS vector store with security checks and verbose logging"""
-    logger.debug("load_vector_store called. cwd=%s", os.getcwd())
-    path = "faiss_index"
-    logger.debug("Checking path existence: %s -> %s", path, os.path.exists(path))
-    if not os.path.exists(path):
-        logger.error("Vector store directory '%s' not found.", path)
+    """Load FAISS vector store with security checks"""
+    if not os.path.exists("faiss_index"):
         st.error("Vector store not found. Please process documents first.")
         return None
 
     try:
-        db = FAISS.load_local(
-            path,
+        return FAISS.load_local(
+            "faiss_index",
             embeddings,
             allow_dangerous_deserialization=True  # Only for trusted sources
         )
-        logger.info("FAISS vector store loaded successfully: %s", type(db))
-        # attempt to introspect index size gracefully
-        try:
-            idx = getattr(db, "index", None)
-            logger.debug("FAISS index introspection: %s", str(idx)[:1000])
-        except Exception:
-            logger.debug("FAISS introspection failed; continuing.")
-        return db
     except Exception as e:
-        logger.exception("Error loading vector store: %s", e)
         st.error(f"Error loading vector store: {str(e)}")
         return None
 
-# -----------------------
-# Conversational chain builder (with logging)
-# -----------------------
 def get_conversational_chain():
-    """Create QA chain with proper model configuration and detailed logging"""
-    try:
-        with open("system_prompt.md", "r", encoding="utf-8") as f:
-            SYSTEM_PROMPT = f.read()
-        logger.debug("Loaded system_prompt.md (len=%d)", len(SYSTEM_PROMPT))
-    except FileNotFoundError:
-        SYSTEM_PROMPT = "You are an assistant specialized in SHL assessments."
-        logger.warning("system_prompt.md not found — using fallback prompt.")
+    """Create QA chain with proper model configuration"""
+    with open("system_prompt.md", "r") as f:
+        SYSTEM_PROMPT = f.read()
 
     prompt_template = f"""
     {SYSTEM_PROMPT}
@@ -190,181 +272,76 @@ def get_conversational_chain():
     Response:
     """
 
-    # instantiate model wrapper with verbose logging
-    try:
-        model = ChatGoogleGenerativeAI(
-            model="gemini-2.0-flash-001",
-            google_api_key=st.secrets.get("GEMINI_API_KEY", None),
-            temperature=0.2,
-            top_k=20,
-            top_p=0.95,
-            verbose=True
-        )
-        logger.info("ChatGoogleGenerativeAI instantiated: %s", getattr(model, "__class__", str(model)))
-    except Exception:
-        logger.exception("Error instantiating ChatGoogleGenerativeAI.")
-        raise
+    # Updated model name to the new google-genai supported model
+    model = ChatGoogleGenerativeAI(
+        model="gemini-2.0-flash-001",
+        google_api_key=st.secrets["GEMINI_API_KEY"],
+        temperature=0.2,
+        top_k=20,
+        top_p=0.95,
+        verbose=True
+
+    )
 
     prompt = PromptTemplate(
         template=prompt_template,
         input_variables=["context", "question"]
     )
 
-    try:
-        chain = load_qa_chain(
-            model,
-            chain_type="stuff",
-            prompt=prompt,
-            verbose=True
-        )
-        logger.info("QA chain loaded successfully: %s", type(chain))
-        return chain
-    except Exception:
-        logger.exception("Failed to create QA chain.")
-        raise
+    return load_qa_chain(
+        model,
+        chain_type="stuff",
+        prompt=prompt,
+        verbose=False
+    )
 
-# -----------------------
-# Safe scrape wrapper
-# -----------------------
-def safe_scrape_url(url: str):
-    logger.debug("safe_scrape_url called for: %s", url)
-    try:
-        scraped = scraping_utils.scrape_url(url)
-        if scraped is None:
-            logger.warning("scrape_url returned None for %s", url)
-            return ""
-        logger.debug("Scraped len=%d for %s preview=%s", len(scraped), url, _preview(scraped, 300))
-        return scraped
-    except Exception:
-        logger.exception("Exception while scraping %s", url)
-        return f"<!-- SCRAPING ERROR for {url}: see logs -->"
-
-# -----------------------
-# Main processing function (fully instrumented)
-# -----------------------
-def process_query(query: str):
-    """Process user query with URL scraping and RAG — instrumented for terminal logging"""
-    logger.debug("process_query called with query (len=%d): %s", len(query), _preview(query, 300))
-
-    # detect URLs
+def process_query(query):
+    """Process user query with URL scraping and RAG"""
+    # URL detection and scraping
     urls = re.findall(r'(https?://\S+)', query)
     scraped_data = ""
-    scraped_sources = []
 
     if urls:
-        logger.info("Found %d url(s) in the query.", len(urls))
-        # Use spinner in UI while scraping
-        with st.spinner("🌐 Scraping linked content..."):
+        with st.status("🌐 Scraping linked content...", expanded=True):
             for url in urls:
-                try:
-                    scraped = safe_scrape_url(url)
-                    scraped_sources.append({"url": url, "len": len(scraped), "preview": _preview(scraped, 400)})
-                    scraped_data += f"\n\nScraped content from {url}:\n{scraped}"
-                except Exception:
-                    logger.exception("Unhandled exception scraping %s", url)
-                    scraped_sources.append({"url": url, "error": "exception during scraping"})
-    else:
-        logger.debug("No URLs detected in query.")
+                scraped = scraping_utils.scrape_url(url)
+                scraped_data += f"\n\nScraped content from {url}:\n{scraped}"
 
-    # Show quick debug summary in UI
-    st.write("Scrape summary:", scraped_sources)
-    logger.debug("Scrape summary: %s", scraped_sources)
-
-    full_query = query + "\n\n" + scraped_data
+    full_query = query + scraped_data
 
     with st.spinner("🔍 Analyzing request with SHL knowledge base..."):
         try:
             db = load_vector_store()
             if db is None:
-                logger.error("Vector store not loaded; aborting process_query.")
                 return "Error: Knowledge base not loaded"
 
-            # similarity search
-            try:
-                docs = db.similarity_search(full_query, k=10)
-                logger.info("similarity_search returned %d documents", len(docs))
-            except Exception:
-                logger.exception("Error during similarity_search")
-                raise
-
-            # preview first doc
-            if docs:
-                preview_text = getattr(docs[0], "page_content", str(docs[0]))
-                st.write("First doc preview:", _preview(preview_text, 1000))
-                logger.debug("First doc preview: %s", _preview(preview_text, 1000))
-
-            # get chain and call it
-            try:
-                chain = get_conversational_chain()
-            except Exception:
-                logger.exception("get_conversational_chain failed")
-                raise
-
-            # ensure chain verbosity if possible
-            try:
-                if hasattr(chain, "verbose"):
-                    chain.verbose = True
-                    logger.debug("Set chain.verbose = True")
-            except Exception:
-                logger.debug("Unable to set chain verbose attribute.")
-
-            # Invoke chain (wrapped)
-            try:
-                logger.debug("Invoking chain with docs and full_query (len=%d)", len(full_query))
-                result = chain.invoke(
-                    {"input_documents": docs, "question": full_query},
-                    return_only_outputs=True
-                )
-                logger.debug("Chain invoke returned type=%s", type(result))
-            except Exception:
-                logger.exception("Exception during chain.invoke")
-                raise
-
-            # Inspect result shape
-            if isinstance(result, dict):
-                logger.debug("Chain result keys: %s", list(result.keys()))
-                # common LangChain key check
-                if "output_text" in result:
-                    out = result["output_text"]
-                    st.write("Response preview:", _preview(out, 2000))
-                    logger.info("Returning output_text (len=%d)", len(out) if out else 0)
-                    return out
-                else:
-                    # Unexpected dict shape — log full repr
-                    logger.warning("Unexpected chain result shape. repr truncated: %s", _preview(repr(result), 2000))
-                    st.error("Chain returned unexpected result shape. Check terminal logs for details.")
-                    return repr(result)
-            else:
-                # Non-dict result — print / return repr
-                logger.warning("Chain returned non-dict result: %s", type(result))
-                st.write("Raw chain result (non-dict):", _preview(repr(result), 2000))
-                return repr(result)
-
+            docs = db.similarity_search(full_query, k=10)
+            chain = get_conversational_chain()
+            response = chain.invoke(
+                {"input_documents": docs, "question": full_query},
+                return_only_outputs=True
+            )
+            return response["output_text"]
         except Exception as e:
-            logger.exception("process_query top-level exception: %s", e)
-            st.error("Analysis error: see terminal logs and app_debug.log for full traceback.")
-            st.exception(e)  # show short trace in Streamlit UI
+            st.error(f"Analysis error: {str(e)}")
             return None
 
-# -----------------------
-# Render response helper
-# -----------------------
-def render_response(response: str):
+def render_response(response):
+    """Render AI response with beautiful markdown formatting"""
     if not response:
-        logger.debug("render_response called with empty response.")
         return
 
-    logger.debug("render_response called; len=%d", len(response))
     # Extract sections between XML-like tags
     sections = re.findall(r'<(\w+)>([\s\S]*?)</\1>', response)
 
     if not sections:
-        logger.debug("No XML-style sections found — rendering raw markdown.")
         st.markdown(response)
         return
 
-    # Reorder sections to put result first
+    # Reorder sections: move "result" to be the first tab if present
     sections = sorted(sections, key=lambda x: 0 if x[0].lower() == "result" else 1)
+
+    # Create tabs for each section
     tab_names = [sec[0].capitalize() for sec in sections]
     tabs = st.tabs(tab_names)
 
@@ -387,9 +364,7 @@ def render_response(response: str):
                 </div>
                 """, unsafe_allow_html=True)
 
-# -----------------------
-# UI: Main application
-# -----------------------
+# Main application UI
 st.title("SHL Assessment Recommendation System")
 st.markdown("""
     <div style="
@@ -410,28 +385,10 @@ query = st.text_area(
     key="query_input"
 )
 
-# A handy debug toggle in the UI to show more info in the sidebar
-with st.sidebar.expander("Debug controls", expanded=True):
-    show_logs = st.checkbox("Show log preview (last 200 lines of app_debug.log)", value=False)
-    if show_logs:
-        try:
-            if os.path.exists("app_debug.log"):
-                with open("app_debug.log", "r", encoding="utf-8") as fh:
-                    lines = fh.read().splitlines()[-200:]
-                    st.text("\n".join(lines))
-            else:
-                st.text("app_debug.log not yet created.")
-        except Exception:
-            st.exception("Error reading app_debug.log")
-
 if st.button("Generate Recommendations", type="primary"):
     if not query:
         st.warning("Please enter your assessment requirements")
     else:
-        logger.info("User requested recommendations; query len=%d", len(query))
         response = process_query(query)
         if response:
             render_response(response)
-        else:
-            logger.warning("No response received from process_query.")
-            st.error("No response — check terminal logs and app_debug.log for details.")
